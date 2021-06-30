@@ -1,0 +1,247 @@
+---
+title: "E21009 E21023"
+author: "Lalit Kumar, Umesh Pachpute"
+date: "22/06/2021"
+output: html_document
+---
+
+    
+## Introduction:-
+Attrition data for a company is given which includes data of around 1500 people and with 20 features.
+ 
+
+ 
+## Objective:-
+On the given data set, we have to perfrom EDA to find out the possible reasons/features for the attrition observed. This analyis might help us predict whether a person will leave the company or not.
+
+
+
+```{r}
+# setting working directory
+setwd("C:\\Users\\umesh\\Desktop\\Praxis BS\\2nd Term\\Intro to R programming\\Midterm exam")
+#reading the file
+att <- read.csv("attrition.csv")
+```
+
+
+```{r}
+#viewing the data in the file
+View(att)
+```
+
+
+```{r}
+#checking dimension
+dim(att)
+```
+
+
+```{r}
+#names of the columns
+names(att)
+```
+
+```{r}
+#checking for any missing values in the data
+colSums(is.na(att))
+```
+
+```{r}
+#summary table of the data
+summary(att)
+```
+
+
+### HYPOTHESIS 1 :-
+#### Age could be a factor for attrition but which age group is the question here.Is there any pattern or equally distributed across all ages.We are assuming that higher age people will have high attrition rate.
+
+Null Hyp =  Higher age group people having higher attrition rate
+
+ALternate Hyp < >  Higher age group people  does not have higher attrition rate
+
+Approach - Plotting graph for attrition=1(left company) against age to see which age group is more contributing to the attrition.
+
+```{r}
+#hist plot for age and attrition=1
+hist(att$Age[att$Attrition == 1], xlab = 'Age', main = 'Distribution for Age', col = "orange",density=30)
+```
+
+
+Arguments: After analysising the graph we observe that age group from  25 to 35, are having higher attrition rate, so the null hypothesis is rejected
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### HYPOTHESIS 2:-
+####  Gender could  be a factor
+
+Null Hyp =  Male will have high attrition rate 
+
+ALternate Hyp < >  Male will not have high attrition rate
+
+Approach - Analysis using barplot
+
+```{r}
+#barplot plot for age and attrition=1
+barplot(table(att$Gender[att$Attrition == 1]), xlab = 'Gender', main = 'Attrition by Gender', col = c("orange","red"),density = 35, angle = 60, width = c(0.3,0.3))
+
+legend("topleft",
+c("Male","Female"),
+fill = c("red","Orange")
+)
+```
+Arguments:  Null hypotethesis is accepted
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### HYPOTHESIS 3:- 
+#### Distance From Home could also be a factor. We are assumming that the people who live far away from the office may have more attrition rate
+
+Null Hyp =  Long distance people having high attrition
+
+ALternate Hyp < > Short distance people  having high attrition
+
+Approach - Using Barplot
+
+```{r}
+#barplot plot for "DistanceFromHome" and attrition=1
+barplot(table(att$DistanceFromHome[att$Attrition == 1]), xlab = 'Distance From Home', main = 'Distribution for Distance From Home', col = "orange",density = 50, angle = 30)
+```
+Arguments: we can observe from the graph that people having short distance i.e 1 and 2 km are having more attrition rate , so Null Hypotethesis rejected
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+### HYPOTHESIS 4:-
+#### MaritalStatus can be affect the attrition rate
+
+Null Hyp = Single people having more attrition rate
+
+ALternate Hyp < > Single people does not have more attrition rate
+
+Approach - Using Barplot
+```{r}
+barplot(table(att$MaritalStatus[att$Attrition == 1]), xlab = 'Marital Status', main = 'Distribution for Marital Status', col = c("Red","Blue", "Green"),density = 25, angle = 50)
+legend("topleft",
+c("Divorced","Married","Single"),
+fill = c("red","Blue", "Green")
+)
+```
+
+Arguments :  Null hypotethesis accepted
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### HYPOTHESIS 5:- 
+#### MonthlyIncome
+
+Null Hyp =  People having low income group might have high attrition rate
+ALternate Hyp < > People having low income group does not have high attrition rate
+
+Approach - Scatterplot
+```{r}
+plot(att$MonthlyIncome[att$Attrition == 1],  ylab = 'Monthly Income', main = 'Attrition by Monthly Income', col ="Blue")
+
+```
+
+Arguments : Null Hypothesis Accepted
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### HYPOTHESIS 6:- 
+#### JobSatisfaction
+
+Null Hyp =   Employee having less satisfaction might have more attrition 
+
+ALternate Hyp < > Employee having less satisfaction does not have more attrition 
+
+Approach - Using Barplot 
+
+```{r}
+barplot(table(att$JobSatisfaction[att$Attrition == 1]),  ylab = 'No. of Employees',xlab= "Satisfaction rating", main = 'Distribution of Satisfaction level ', col =c("Orange","Red","Purple","Green"),density = 75, angle = 50)
+
+
+```
+
+Arguments: From the above graph we observed that irrespective of the satisfaction rating level attrition rate are somewhat equally distributed
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### HYPOTHESIS 7:-  
+#### Attrition by Department
+
+Null Hyp =   Employees having Research and Development might have high attrition rate
+
+ALternate Hyp < > Employees having Research and Development might have low attrition rate
+
+Approach - Using Barplot for this 
+
+```{r}
+barplot(table(att$Department[att$Attrition == 1]),  ylab = 'No. of Employees',
+        main = 'Department Level Attrition Rate ', 
+        col =c("Orange","Purple","Green"),density = 75, angle = 50)
+
+legend("topleft",
+c("HR","R&D","Sales"),
+fill = c("Orange","Purple","Green"))
+
+```
+
+Arguments: Null hypothesis is acceptted as can be observed from the above graph.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### HYPOTHESIS 8:- 
+####  Attrition by Education
+
+Null Hyp =   Employees having tehnical eduation might have high attrition rate
+
+ALternate Hyp < > Employees having tehnical eduation might not have high attrition rate
+
+Approach - Using Barplot for this 
+
+```{r}
+barplot(table(att$EducationField[att$Attrition == 1]),  ylab = 'No. of Employees',
+        main = 'Attrition by Education', 
+        col = "Pink")
+```
+
+Arguments: Null hypothesis is rejected emplyoees having life sciences as education have more attrition rate.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### HYPOTHESIS 9:- 
+####  Attrition by Years at  the current company
+
+Null Hyp =   Employees having high number of years in the current company might have high attrition rate
+
+ALternate Hyp < > Employees having high number of years in the current company does not have high attrition rate
+
+Approach - Using histogram to plot this
+
+```{r}
+hist(att$YearsAtCompany[att$Attrition == 1], xlab = 'No. of Years', main = 'Distribution Years in the Company', col = "Violet")
+```
+
+Arguments: NULL hypothesis is rejected because people with less number of years in the current organisation have high attrition rate
+ 
+
+## Concluding note:- 
+### From this EDA analysis, it is observed that the :
+1. Mid age group 25-35 have high attrition rate
+2. Male employees are contributing more to the attrition which could be possibly because of high number male employees in the company
+3.Distance from the office docent help here either as high number of people with very close home location to the office have also shown high attrition rate
+4. Also, In education - Life sciences, Years in the company - less, Department - R&D, Monthly salary - low have high attrition rate
+
